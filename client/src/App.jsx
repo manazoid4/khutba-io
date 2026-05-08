@@ -3,6 +3,7 @@ import LandingPage from './pages/LandingPage';
 import PricingPage from './pages/PricingPage';
 import DisplayPage from './pages/DisplayPage';
 import AdminPage from './pages/AdminPage';
+import SettingsPage from './pages/SettingsPage';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/display/:sessionId" element={<DisplayPage />} />
         <Route path="/admin/:sessionId" element={<AdminPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -19,6 +19,7 @@ export default function LandingPage() {
             <a href="#features" className="text-gray-400 hover:text-white text-sm transition">Features</a>
             <a href="#comparison" className="text-gray-400 hover:text-white text-sm transition">Compare</a>
             <Link to="/pricing" className="text-gray-400 hover:text-white text-sm transition">Pricing</Link>
+            <Link to="/settings" className="text-gray-400 hover:text-white text-sm transition">Settings</Link>
             <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-400 transition">Get Started</Link>
           </div>
         </div>

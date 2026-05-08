@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -17,12 +17,82 @@
   .display-text-ar {
     font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
   }
-  
+
   .display-text-ur {
     font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Arial', sans-serif;
   }
-  
+
   .display-text-bn {
     font-family: 'Noto Sans Bengali', 'Arial', sans-serif;
+  }
+}
+
+@layer utilities {
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+  }
+
+  @keyframes text-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .animate-live-pulse {
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+
+  .animate-text-fade-in {
+    animation: text-fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .glass-panel {
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .text-glow-emerald {
+    text-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+  }
+
+  .text-glow-amber {
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  }
+
+  .text-glow-blue {
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+  }
+
+  .text-glow-pink {
+    text-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
   }
 }
