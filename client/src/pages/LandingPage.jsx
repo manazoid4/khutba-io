@@ -7,27 +7,29 @@ const whatsappShareMessage = encodeURIComponent(
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-[#0a0f1a] text-white">
       {/* Nav */}
-      <nav className="border-b border-gray-800">
+      <nav className="border-b border-white/5 bg-[#0a0f1a]/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-emerald-400">khutba.io</span>
             <span className="text-xs bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded-full font-medium">UK Built</span>
           </div>
           <div className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-gray-400 hover:text-white text-sm transition">Features</a>
-            <a href="#comparison" className="text-gray-400 hover:text-white text-sm transition">Compare</a>
-            <Link to="/pricing" className="text-gray-400 hover:text-white text-sm transition">Pricing</Link>
-            <Link to="/settings" className="text-gray-400 hover:text-white text-sm transition">Settings</Link>
+            <a href="#features" className="text-slate-400 hover:text-white text-sm transition">Features</a>
+            <a href="#comparison" className="text-slate-400 hover:text-white text-sm transition">Compare</a>
+            <Link to="/pricing" className="text-slate-400 hover:text-white text-sm transition">Pricing</Link>
+            <Link to="/settings" className="text-slate-400 hover:text-white text-sm transition">Settings</Link>
             <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-400 transition">Get Started</Link>
           </div>
         </div>
       </nav>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative">
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/20 via-transparent to-transparent pointer-events-none"></div>
+        <div className="relative grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <RamadanCountdown />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-8">
@@ -35,7 +37,7 @@ export default function LandingPage() {
               <br />
               <span className="text-emerald-400">powered by AI</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-400 mt-6 leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-400 mt-6 leading-relaxed">
               Live khutbah translations, prayer times, and announcements — on the screen your congregation already watches.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8">
@@ -54,7 +56,7 @@ export default function LandingPage() {
                 Share with your committee
               </a>
             </div>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 text-sm text-gray-500">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 text-sm text-slate-500">
               <span className="flex items-center gap-1.5">
                 <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                 Unlimited minutes
@@ -72,62 +74,66 @@ export default function LandingPage() {
 
           {/* Mosque Screen Mock */}
           <div className="relative">
-            <div className="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl shadow-emerald-500/5 border border-gray-800">
+            <div className="bg-[#111827] rounded-2xl overflow-hidden shadow-2xl shadow-emerald-500/10 border border-white/10">
               {/* Screen bezel */}
-              <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
+              <div className="bg-[#1a2332] px-4 py-2 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="text-gray-400 text-xs font-medium uppercase tracking-wider">LIVE</span>
+                  <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
+                  <span className="text-emerald-400 text-xs font-medium uppercase tracking-wider">LIVE</span>
                 </div>
-                <span className="text-gray-500 text-xs">Birmingham Central Masjid</span>
-                <div className="text-gray-500 text-xs">Jumu'ah — 1:15 PM</div>
+                <span className="text-slate-400 text-xs">Birmingham Central Masjid</span>
+                <div className="text-slate-400 text-xs">Jumu'ah — 1:15 PM</div>
               </div>
               {/* Screen content */}
-              <div className="p-8 md:p-12 bg-gradient-to-b from-gray-900 to-gray-950 min-h-[320px] flex flex-col items-center justify-center">
-                <p className="text-gray-500 text-sm mb-6 uppercase tracking-widest">Friday Khutbah — Live Translation</p>
-                <p className="text-white text-2xl md:text-3xl font-bold leading-relaxed text-center" dir="ltr">
-                  The Prophet ﷺ said: "The best of you are those who learn the Quran and teach it."
-                </p>
-                <div className="w-16 h-px bg-emerald-500/30 my-6"></div>
-                <p className="text-emerald-400 text-xl md:text-2xl leading-relaxed text-center" dir="rtl">
-                  قال النبي ﷺ: "خيركم من تعلم القرآن وعلمه"
-                </p>
-                <div className="w-16 h-px bg-amber-500/30 my-6"></div>
-                <p className="text-amber-400 text-lg md:text-xl leading-relaxed text-center" dir="rtl">
-                  نبی کریم ﷺ نے فرمایا: "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے"
-                </p>
+              <div className="p-8 md:p-12 bg-gradient-to-b from-[#0f172a] via-[#1a1f2e] to-[#0f172a] min-h-[320px] flex flex-col items-center justify-center relative">
+                {/* Subtle pattern overlay */}
+                <div className="absolute inset-0 opacity-5" style={{backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '24px 24px'}}></div>
+                <div className="relative">
+                  <p className="text-slate-500 text-sm mb-6 uppercase tracking-widest">Friday Khutbah — Live Translation</p>
+                  <p className="text-white text-2xl md:text-3xl font-bold leading-relaxed text-center" dir="ltr">
+                    The Prophet ﷺ said: "The best of you are those who learn the Quran and teach it."
+                  </p>
+                  <div className="w-16 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent my-6"></div>
+                  <p className="text-emerald-300 text-xl md:text-2xl leading-relaxed text-center" dir="rtl">
+                    قال النبي ﷺ: "خيركم من تعلم القرآن وعلمه"
+                  </p>
+                  <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent my-6"></div>
+                  <p className="text-amber-300 text-lg md:text-xl leading-relaxed text-center" dir="rtl">
+                    نبی کریم ﷺ نے فرمایا: "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے"
+                  </p>
+                </div>
               </div>
               {/* Bottom bar */}
-              <div className="bg-gray-800 px-4 py-2 flex items-center justify-between text-xs text-gray-500">
+              <div className="bg-[#1a2332] px-4 py-2 flex items-center justify-between text-xs text-slate-500">
                 <span>English · Arabic · Urdu</span>
-                <span>khutba.io</span>
+                <span className="text-emerald-400/60">khutba.io</span>
               </div>
             </div>
             {/* Glow effect */}
-            <div className="absolute -inset-4 bg-emerald-500/5 rounded-3xl blur-xl -z-10"></div>
+            <div className="absolute -inset-4 bg-gradient-to-tr from-emerald-500/10 via-transparent to-amber-500/5 rounded-3xl blur-2xl -z-10"></div>
           </div>
         </div>
       </section>
 
       {/* Trust Signals Bar */}
-      <section className="border-y border-gray-800 bg-gray-900/50">
+      <section className="border-y border-white/5 bg-[#0d1320]/50">
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
               <p className="text-emerald-400 font-bold text-lg">Built for UK</p>
-              <p className="text-gray-500 text-sm mt-1">Birmingham · London · Manchester</p>
+              <p className="text-slate-500 text-sm mt-1">Birmingham · London · Manchester</p>
             </div>
             <div className="text-center">
               <p className="text-emerald-400 font-bold text-lg">5 Languages</p>
-              <p className="text-gray-500 text-sm mt-1">English · Arabic · Urdu · Bengali · Turkish</p>
+              <p className="text-slate-500 text-sm mt-1">English · Arabic · Urdu · Bengali · Turkish</p>
             </div>
             <div className="text-center">
               <p className="text-emerald-400 font-bold text-lg">GDPR Compliant</p>
-              <p className="text-gray-500 text-sm mt-1">UK data residency</p>
+              <p className="text-slate-500 text-sm mt-1">UK data residency</p>
             </div>
             <div className="text-center">
               <p className="text-emerald-400 font-bold text-lg">No App Needed</p>
-              <p className="text-gray-500 text-sm mt-1">Works on any browser</p>
+              <p className="text-slate-500 text-sm mt-1">Works on any browser</p>
             </div>
           </div>
         </div>
@@ -136,7 +142,7 @@ export default function LandingPage() {
       {/* Features */}
       <section id="features" className="max-w-6xl mx-auto px-6 py-20">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for masjids. <span className="text-emerald-400">Not phones.</span></h2>
-        <p className="text-gray-400 text-lg mb-12 max-w-2xl">
+        <p className="text-slate-400 text-lg mb-12 max-w-2xl">
           Every other translation tool makes people look at their phones. We put it on the screen where everyone can see.
         </p>
         <div className="grid md:grid-cols-3 gap-6">
@@ -196,27 +202,27 @@ export default function LandingPage() {
               desc: 'Taraweeh mode for longer sessions. Ramadan theming. Built for the busiest time of the masjid year.',
             },
           ].map(({ icon, title, desc }) => (
-            <div key={title} className="border border-gray-800 rounded-xl p-6 hover:border-gray-700 transition">
+            <div key={title} className="border border-white/5 bg-[#0d1320]/50 rounded-xl p-6 hover:border-emerald-500/20 hover:bg-[#0d1320] transition">
               <div className="w-12 h-12 bg-emerald-400/10 rounded-lg flex items-center justify-center mb-4 text-emerald-400">
                 {icon}
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
+              <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Comparison */}
-      <section id="comparison" className="bg-gray-900/50 py-20">
+      <section id="comparison" className="bg-[#0d1320]/50 py-20">
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Don't take our word for it.</h2>
-          <p className="text-gray-400 text-lg mb-12">See how khutba.io compares to the only other live khutbah translation tool.</p>
+          <p className="text-slate-400 text-lg mb-12">See how khutba.io compares to the only other live khutbah translation tool.</p>
 
           {/* Visual comparison cards */}
           <div className="grid md:grid-cols-2 gap-6 mb-12">
             {/* khutba.io card */}
-            <div className="bg-gray-900 border-2 border-emerald-500 rounded-2xl p-8 relative">
+            <div className="bg-[#111827] border-2 border-emerald-500/50 rounded-2xl p-8 relative shadow-lg shadow-emerald-500/5">
               <div className="absolute -top-3 left-6 bg-emerald-500 text-gray-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                 khutba.io
               </div>
@@ -232,8 +238,8 @@ export default function LandingPage() {
                   { label: 'WhatsApp sharing', value: 'Built in' },
                   { label: 'Origin', value: 'Birmingham, UK' },
                 ].map(({ label, value, highlight }) => (
-                  <div key={label} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-0">
-                    <span className="text-gray-400 text-sm">{label}</span>
+                  <div key={label} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+                    <span className="text-slate-400 text-sm">{label}</span>
                     <span className={`text-sm font-medium ${highlight ? 'text-emerald-400' : 'text-white'}`}>{value}</span>
                   </div>
                 ))}
@@ -241,8 +247,8 @@ export default function LandingPage() {
             </div>
 
             {/* MinbarLive card */}
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 relative opacity-75">
-              <div className="absolute -top-3 left-6 bg-gray-700 text-gray-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            <div className="bg-[#111827] border border-white/5 rounded-2xl p-8 relative opacity-75">
+              <div className="absolute -top-3 left-6 bg-[#1e293b] text-slate-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                 MinbarLive
               </div>
               <div className="mt-2 space-y-4">
@@ -257,9 +263,9 @@ export default function LandingPage() {
                   { label: 'WhatsApp sharing', value: 'Not available' },
                   { label: 'Origin', value: 'Bosnia' },
                 ].map(({ label, value }) => (
-                  <div key={label} className="flex items-center justify-between py-2 border-b border-gray-800 last:border-0">
-                    <span className="text-gray-400 text-sm">{label}</span>
-                    <span className="text-gray-500 text-sm">{value}</span>
+                  <div key={label} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
+                    <span className="text-slate-400 text-sm">{label}</span>
+                    <span className="text-slate-500 text-sm">{value}</span>
                   </div>
                 ))}
               </div>
@@ -268,17 +274,17 @@ export default function LandingPage() {
 
           {/* Key differentiators */}
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-6 text-center">
+            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6 text-center">
               <p className="text-3xl font-bold text-emerald-400">£30</p>
-              <p className="text-gray-400 text-sm mt-2">Cheaper per month than MinbarLive entry</p>
+              <p className="text-slate-400 text-sm mt-2">Cheaper per month than MinbarLive entry</p>
             </div>
-            <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-6 text-center">
+            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6 text-center">
               <p className="text-3xl font-bold text-emerald-400">∞</p>
-              <p className="text-gray-400 text-sm mt-2">Unlimited minutes vs 100 min cap</p>
+              <p className="text-slate-400 text-sm mt-2">Unlimited minutes vs 100 min cap</p>
             </div>
-            <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-6 text-center">
+            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6 text-center">
               <p className="text-3xl font-bold text-emerald-400">1</p>
-              <p className="text-gray-400 text-sm mt-2">Feature done perfectly vs 7 features done okay</p>
+              <p className="text-slate-400 text-sm mt-2">Feature done perfectly vs 7 features done okay</p>
             </div>
           </div>
         </div>
@@ -325,11 +331,11 @@ export default function LandingPage() {
       <section className="bg-gray-900/50 py-20">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get your masjid Ramadan-ready.</h2>
-          <p className="text-gray-400 text-lg mb-8">
+          <p className="text-slate-400 text-lg mb-8">
             Less than a box of flyers per month. Unlimited minutes. Works on the screen you already have.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center">
+            <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center shadow-lg shadow-emerald-500/20">
               Start Free Trial — No Card Needed
             </Link>
             <a
@@ -344,7 +350,13 @@ export default function LandingPage() {
               Share on WhatsApp
             </a>
           </div>
-          <p className="text-gray-600 text-sm mt-6">Built in Birmingham. Priced for UK masjids.</p>
+          <p className="text-slate-500 text-sm mt-6">Built in Birmingham. Priced for UK masjids.</p>
+          <div className="mt-8">
+            <a href="https://jobfilter.uk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 text-sm font-medium transition">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+              See WhatsApp alert example →
+            </a>
+          </div>
         </div>
       </section>
 
