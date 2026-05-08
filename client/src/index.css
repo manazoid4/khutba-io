@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .display-text-ar {
+    font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
+  }
+  
+  .display-text-ur {
+    font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Arial', sans-serif;
+  }
+  
+  .display-text-bn {
+    font-family: 'Noto Sans Bengali', 'Arial', sans-serif;
+  }
+}
