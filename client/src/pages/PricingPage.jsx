@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import DemoRequestForm from '../components/DemoRequestForm';
 
 export default function PricingPage() {
   return (
@@ -52,9 +53,9 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <button className="w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
-              Start Free Trial
-            </button>
+            <a href="#demo" className="block text-center w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
+              Request Demo
+            </a>
           </div>
 
           {/* Masjid — Featured */}
@@ -87,9 +88,9 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <button className="w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
-              Start Free Trial
-            </button>
+            <a href="#demo" className="block text-center w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
+              Request Demo
+            </a>
           </div>
 
           {/* Centre */}
@@ -119,10 +120,14 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <button className="w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
+            <a href="#demo" className="block text-center w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
               Contact Us
-            </button>
+            </a>
           </div>
+        </div>
+
+        <div id="demo" className="mt-20 max-w-3xl mx-auto">
+          <DemoRequestForm variant="light" />
         </div>
 
         {/* Comparison Table */}

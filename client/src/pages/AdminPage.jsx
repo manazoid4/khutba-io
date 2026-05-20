@@ -178,7 +178,7 @@ export default function AdminPage() {
   const transcriptRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io(process.env.SERVER_URL || 'http://localhost:3001');
+    socketRef.current = io(import.meta.env.VITE_SERVER_URL || 'http://localhost:3001');
 
     socketRef.current.emit('admin:join', { sessionId });
 

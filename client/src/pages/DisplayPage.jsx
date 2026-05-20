@@ -138,7 +138,7 @@ export default function DisplayPage() {
   }, []);
 
   useEffect(() => {
-    const socket = io(process.env.SERVER_URL || 'http://localhost:3001');
+    const socket = io(import.meta.env.VITE_SERVER_URL || 'http://localhost:3001');
 
     socket.emit('display:join', { sessionId });
 

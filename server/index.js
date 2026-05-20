@@ -2,6 +2,8 @@ const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -13,6 +15,9 @@ const io = new Server(httpServer, { cors: { origin: '*' } });
 const sessions = new Map(); // sessionId -> { active, languages, transcript }
 const displays = new Map(); // sessionId -> Set of display socket ids
 const admins = new Map();   // sessionId -> admin socket id
+const demoRequests = new Map(); // requestId -> structured launch lead
+const dataDir = path.join(__dirname, '..', 'data');
+const demoRequestFile = path.join(dataDir, 'demo-requests.jsonl');
 
 // --- Supported languages (UK-focused) ---
 const SUPPORTED_LANGUAGES = [
@@ -41,6 +46,30 @@ function getRamadanCountdown() {
   if (diff <= 0) return { days: 0, message: 'Ramadan Mubarak!' };
   const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
   return { days, message: `${days} days until Ramadan` };
+}
+
+function cleanText(value, maxLength = 240) {
+  return String(value || '').trim().slice(0, maxLength);
+}
+
+async function persistDemoRequest(request) {
+  await fs.promises.mkdir(dataDir, { recursive: true });
+  await fs.promises.appendFile(demoRequestFile, `${JSON.stringify(request)}\n`, 'utf8');
+}
+
+function requireAdminToken(req, res, next) {
+  const configuredToken = process.env.ADMIN_TOKEN;
+  if (!configuredToken) {
+    return res.status(403).json({ error: 'ADMIN_TOKEN is required to view demo requests' });
+  }
+
+  const header = req.get('authorization') || '';
+  const providedToken = header.startsWith('Bearer ') ? header.slice(7) : req.query.token;
+  if (providedToken !== configuredToken) {
+    return res.status(401).json({ error: 'Invalid admin token' });
+  }
+
+  return next();
 }
 
 // --- Routes ---
@@ -112,6 +141,55 @@ app.get('/api/share/whatsapp', (req, res) => {
     `Learn more: https://khutba.io`
   );
   res.json({ whatsappUrl: `https://wa.me/?text=${message}` });
+});
+
+// Capture launch demo requests from masjid committees.
+app.post('/api/demo-requests', async (req, res) => {
+  const masjidName = cleanText(req.body.masjidName, 120);
+  const contactName = cleanText(req.body.contactName, 120);
+  const whatsapp = cleanText(req.body.whatsapp, 40);
+  const city = cleanText(req.body.city || 'Birmingham', 80);
+  const notes = cleanText(req.body.notes, 500);
+  const languages = Array.isArray(req.body.languages)
+    ? req.body.languages.map(language => cleanText(language, 40)).filter(Boolean).slice(0, 6)
+    : [];
+
+  if (!masjidName || !contactName || !whatsapp) {
+    return res.status(400).json({ error: 'Masjid name, contact name, and WhatsApp number are required' });
+  }
+
+  const request = {
+    id: crypto.randomUUID(),
+    status: 'new',
+    source: 'khutba.io demo form',
+    sourceConfidence: 'direct inbound',
+    masjidName,
+    contactName,
+    whatsapp,
+    city,
+    languages,
+    notes,
+    launchOffer: 'First 10 UK masjids: £29/month locked for 12 months',
+    createdAt: new Date().toISOString(),
+  };
+
+  demoRequests.set(request.id, request);
+
+  try {
+    await persistDemoRequest(request);
+  } catch (error) {
+    console.error('demo request persistence failed:', error);
+    return res.status(500).json({ error: 'Could not save demo request' });
+  }
+
+  return res.status(201).json({ id: request.id, status: request.status });
+});
+
+app.get('/api/demo-requests', requireAdminToken, (req, res) => {
+  res.json({
+    count: demoRequests.size,
+    requests: [...demoRequests.values()].sort((a, b) => b.createdAt.localeCompare(a.createdAt)),
+  });
 });
 
 // --- Socket.io ---

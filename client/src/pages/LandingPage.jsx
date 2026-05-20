@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import RamadanCountdown from '../components/RamadanCountdown';
+import DemoRequestForm from '../components/DemoRequestForm';
 
 const whatsappShareMessage = encodeURIComponent(
   "Salaam! Check out khutba.io — AI-powered mosque screens. Unlimited minutes, £29/month. Better than MinbarLive. https://khutba.io"
@@ -41,9 +42,9 @@ export default function LandingPage() {
               Live khutbah translations, prayer times, and announcements — on the screen your congregation already watches.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8">
-              <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center">
-                Start Free Trial
-              </Link>
+              <a href="#demo" className="bg-emerald-500 text-gray-950 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center">
+                Book WhatsApp Demo
+              </a>
               <a
                 href={`https://wa.me/?text=${whatsappShareMessage}`}
                 target="_blank"
@@ -112,6 +113,27 @@ export default function LandingPage() {
             {/* Glow effect */}
             <div className="absolute -inset-4 bg-gradient-to-tr from-emerald-500/10 via-transparent to-amber-500/5 rounded-3xl blur-2xl -z-10"></div>
           </div>
+        </div>
+      </section>
+
+      {/* Demo Request */}
+      <section id="demo" className="max-w-6xl mx-auto px-6 py-20">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+          <div className="pt-2">
+            <p className="text-emerald-400 text-sm font-semibold">Sell before building more</p>
+            <h2 className="text-3xl md:text-4xl font-bold mt-3">Get a committee call, then show the screen live.</h2>
+            <p className="text-slate-400 text-lg mt-4 leading-relaxed">
+              The fastest path to revenue is not another feature. It is a WhatsApp demo with one masjid committee, one laptop, and one screen.
+            </p>
+            <div className="grid sm:grid-cols-3 gap-3 mt-8">
+              {['15-minute demo', 'No card needed', '£29/mo launch price'].map(item => (
+                <div key={item} className="border border-white/5 bg-[#0d1320]/50 rounded-xl px-4 py-3 text-sm text-slate-300">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <DemoRequestForm />
         </div>
       </section>
 
@@ -335,9 +357,9 @@ export default function LandingPage() {
             Less than a box of flyers per month. Unlimited minutes. Works on the screen you already have.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center shadow-lg shadow-emerald-500/20">
-              Start Free Trial — No Card Needed
-            </Link>
+            <a href="#demo" className="bg-emerald-500 text-gray-950 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center shadow-lg shadow-emerald-500/20">
+              Book WhatsApp Demo
+            </a>
             <a
               href={`https://wa.me/?text=${whatsappShareMessage}`}
               target="_blank"
