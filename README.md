@@ -1,87 +1,98 @@
 # khutba.io
 
-**Live khutbah translation on your masjid screen.**
+**The live language layer for the masjid.**
 
-Screen-first. Unlimited minutes. Built in Birmingham, UK.
+[View the live Vercel site](https://khutba-io.vercel.app) · [Try the account-free demo](https://khutba-io.vercel.app/demo) · [Read the product and commercial decision](docs/KHUTBA-IO-DECISION-DOCUMENT.md)
 
-## What It Does
+Khutba.io is a screen-first Live Khutbah Platform designed around the Friday workflow: pair the screen a mosque already owns, verify readiness, start explicitly, and present calm multilingual captions at worship-hall distance.
 
-Captures live mic audio → real-time speech-to-text → translates into multiple languages → displays large auto-scrolling text on any screen in the masjid.
+## Current status
 
-## Why It Exists
+This repository is an early product prototype and marketing/demo deployment.
 
-- Non-Arabic speakers miss the meaning of khutbah every week
-- No dedicated affordable product exists for UK masjids
-- Volunteer translators are unreliable and exhausting
-- Every competitor is phone-first — we're screen-first
+Working today:
 
-## Competitive Edge
+- React/Vite marketing site, pricing and scripted demo
+- paired admin and masjid display over Socket.IO
+- explicit broadcast start/stop and display reconnect states
+- browser speech-recognition development path
+- Friday Readiness interface and multilingual display test
 
-| | khutba.io | MinbarLive |
-|---|---|---|
-| Display | Screen-first | Phone-only (QR) |
-| Minutes | Unlimited | Capped (100-800) |
-| Price | £29/mo entry | €59/mo entry |
-| Focus | 5 UK languages, done right | 135+ (quality varies) |
-| Origin | Birmingham, UK | Bosnia |
+Not production-ready yet:
+
+- production speech-to-text and translation providers
+- Qur'an/Hadith detection or mosque terminology intelligence
+- authentication, durable sessions and billing
+- provider failover and a hosted persistent realtime backend
+- verified prayer-time data and durable production lead capture
+
+The Vercel deployment hosts the front-end and account-free demo. Persistent live admin/display sessions require the Node/Socket.IO server to be deployed separately and supplied through VITE_SERVER_URL.
+
+## Product direction
+
+- Category now: **Live Khutbah Platform**
+- Category ambition: **Mosque Communication OS**
+- Initial ICP: medium-to-large multilingual UK mosques with an existing mixer and screen
+- Commercial entry: four-Friday pilot, then Core at £79/month or £790/year
+
+The evidence, competitor matrix, unit economics, moat stack and staged roadmap are in [the decision document](docs/KHUTBA-IO-DECISION-DOCUMENT.md). The visual implementation contract is in [DESIGN.md](DESIGN.md).
+
+## Local development
+
+~~~bash
+npm install
+npm run start
+~~~
+
+The client runs on http://localhost:5173 and the Express/Socket.IO server on http://localhost:3001.
+
+Useful commands:
+
+~~~bash
+npm run dev       # Vite client only
+npm run server    # Realtime/API server only
+npm run start     # Both processes
+npm run build     # Production front-end build
+~~~
+
+## Routes
+
+| Route | Purpose |
+|---|---|
+| / | Marketing and four-Friday pilot proposition |
+| /demo | Account-free scripted screen demonstration |
+| /pricing | Monthly/annual Core, Pro and Network packages |
+| /admin/:sessionId | Volunteer control room |
+| /display/:sessionId | Full-screen masjid display |
+| /settings/:sessionId | Session settings |
 
 ## Stack
 
-- Frontend: React + Vite + TailwindCSS
-- Backend: Node/Express + Socket.io
-- Speech-to-text: Deepgram (browser STT for v1)
-- Translation: Google Translate API
-- DB: Supabase
-- Billing: Stripe
+- React 18, React Router, Vite and Tailwind CSS
+- Node.js, Express and Socket.IO
+- In-memory development state
+- Vercel for the current front-end/demo deployment
 
-## Languages
+## Repository map
 
-Arabic · English · Urdu · Somali · Bengali
+~~~text
+client/
+  public/                         Original architectural hero art
+  src/
+    components/DemoRequestForm.jsx
+    pages/
+      LandingPage.jsx
+      DemoPage.jsx
+      PricingPage.jsx
+      DisplayPage.jsx
+      AdminPage.jsx
+      SettingsPage.jsx
+server/index.js                   Development API and realtime server
+docs/KHUTBA-IO-DECISION-DOCUMENT.md
+DESIGN.md
+vercel.json
+~~~
 
-## Quick Start
+## Safety and claims
 
-```bash
-# Install dependencies
-npm install
-
-# Copy env vars
-cp .env.example .env
-
-# Start server + client
-npm run start
-```
-
-Server runs on `:3001`, client on `:5173`.
-
-## Project Structure
-
-```
-khutba-io/
-├── client/
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── LandingPage.jsx    # Marketing site
-│   │   │   ├── PricingPage.jsx    # Pricing + comparison
-│   │   │   ├── DisplayPage.jsx    # Screen display (core product)
-│   │   │   └── AdminPage.jsx      # Admin control panel
-│   │   ├── components/
-│   │   │   └── RamadanCountdown.jsx
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css
-│   └── index.html
-├── server/
-│   └── index.js                   # Socket.io + API routes
-├── package.json
-├── vite.config.js
-├── tailwind.config.js
-└── postcss.config.js
-```
-
-## Status
-
-🟡 Early development — Birmingham UK launch target
-
-## Ramadan 2027
-
-Launch target: January 2027 (2 months before Ramadan, estimated March 1, 2027).
+Do not describe the current prototype as GDPR compliant, UK-resident, religiously verified or unlimited. Do not use placeholder prayer times in a live mosque. Production deployment requires documented retention, consent, subprocessors, security controls and measured language/verse accuracy.

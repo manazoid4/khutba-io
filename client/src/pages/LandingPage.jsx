@@ -1,409 +1,81 @@
 import { Link } from 'react-router-dom';
-import RamadanCountdown from '../components/RamadanCountdown';
 import DemoRequestForm from '../components/DemoRequestForm';
 
-const whatsappShareMessage = encodeURIComponent(
-  "Salaam! Check out khutba.io — AI-powered mosque screens. Unlimited minutes, £29/month. Better than MinbarLive. https://khutba.io"
-);
+const proofPoints = [
+  ['Existing screens', 'Open one display link on the TV or projector you already use.'],
+  ['One Friday workflow', 'Connect audio, run readiness, press Start, and leave the display alone.'],
+  ['Mosque-first language', 'Arabic, English, Urdu, Bengali and Somali are core—not edge cases.'],
+];
+
+const faq = [
+  ['Does the congregation need phones?', 'No. The hero experience is the shared prayer-hall screen. A personal-language link can remain optional for overflow and accessibility.'],
+  ['What if our imam already translates?', 'Keep the imam’s chosen delivery. Khutba helps when one spoken language cannot serve a multilingual congregation and removes dependence on a weekly volunteer.'],
+  ['Can we trust AI with Qur’an and Hadith?', 'No generic system should be trusted blindly. The pilot starts with mosque-approved terminology and human review. Verified Qur’an replacement and confidence handling will only be claimed after they are proven.'],
+  ['Do we need technical staff?', 'No. A volunteer needs a browser, a clean audio feed or microphone, and the display link. The target setup time is under ten minutes.'],
+  ['What happens if the internet drops?', 'The screen holds a calm standby state and reconnects automatically. The operator sees connection health before going live. Provider failover remains a production roadmap item.'],
+  ['Is audio stored?', 'The current flow does not create an audio recording. Any future archive will be opt-in, mosque-controlled, and paired with retention and deletion settings.'],
+];
+
+function Wordmark() {
+  return <Link to="/" className="inline-flex items-baseline gap-2" aria-label="Khutba.io home"><span className="font-editorial text-xl font-bold text-[#F4EDDF]">khutba</span><span className="text-[10px] font-bold uppercase tracking-[.28em] text-[#88CED0]">.io</span></Link>;
+}
+
+function ScreenPreview() {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[#88CED0]/20 bg-[#08131F] shadow-2xl shadow-black/40">
+      <div className="flex items-center justify-between border-b border-[#88CED0]/10 px-5 py-3 text-[10px] font-semibold uppercase tracking-[.2em] text-[#88CED0]/70"><span className="flex items-center gap-2"><i className="size-2 rounded-full bg-red-500" /> Live</span><span>Central Masjid</span><span>13:21</span></div>
+      <div className="tile-pattern flex min-h-[330px] flex-col justify-center px-7 py-10 text-center md:min-h-[390px] md:px-12">
+        <p className="display-text-ar text-2xl text-[#D6A64A]" dir="rtl">ٱلْجُمُعَة</p>
+        <p className="font-editorial mx-auto mt-7 max-w-xl text-2xl leading-relaxed text-[#F4EDDF] md:text-4xl">“And whoever relies upon Allah—then He is sufficient for them.”</p>
+        <div className="mx-auto my-6 h-px w-24 bg-gradient-to-r from-transparent via-[#D6A64A]/70 to-transparent" />
+        <p className="text-[10px] font-bold uppercase tracking-[.35em] text-[#88CED0]">English</p>
+      </div>
+      <div className="grid grid-cols-5 border-t border-[#88CED0]/10 bg-[#0B1B2A] px-4 py-3 text-center">{['Fajr 04:42', 'Dhuhr 13:18', 'Asr 17:24', 'Maghrib 20:41', 'Isha 22:05'].map(item => <span key={item} className="text-[9px] uppercase tracking-wider text-[#E7D6B5]/65">{item}</span>)}</div>
+    </div>
+  );
+}
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0a0f1a] text-white">
-      {/* Nav */}
-      <nav className="border-b border-white/5 bg-[#0a0f1a]/80 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-emerald-400">khutba.io</span>
-            <span className="text-xs bg-emerald-400/10 text-emerald-400 px-2 py-0.5 rounded-full font-medium">UK Built</span>
-          </div>
-          <div className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-slate-400 hover:text-white text-sm transition">Features</a>
-            <a href="#comparison" className="text-slate-400 hover:text-white text-sm transition">Compare</a>
-            <Link to="/pricing" className="text-slate-400 hover:text-white text-sm transition">Pricing</Link>
-            <Link to="/settings" className="text-slate-400 hover:text-white text-sm transition">Settings</Link>
-            <Link to="/pricing" className="bg-emerald-500 text-gray-950 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-400 transition">Get Started</Link>
-          </div>
-        </div>
+    <div className="min-h-screen overflow-hidden bg-[#08131F] text-[#F4EDDF]">
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-[#88CED0]/10 bg-[#08131F]/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8"><Wordmark /><div className="hidden gap-7 text-sm text-[#E7D6B5]/65 md:flex"><a href="#product">Product</a><a href="#reliability">Reliability</a><Link to="/pricing">Pricing</Link></div><Link to="/demo" className="rounded-full border border-[#D6A64A]/50 bg-[#D6A64A]/10 px-4 py-2 text-sm font-semibold text-[#F0C978]">Try live demo</Link></div>
       </nav>
 
-      {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 py-16 md:py-24 relative">
-        {/* Subtle background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/20 via-transparent to-transparent pointer-events-none"></div>
-        <div className="relative grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <RamadanCountdown />
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mt-8">
-              Your mosque's screen,
-              <br />
-              <span className="text-emerald-400">powered by AI</span>
-            </h1>
-            <p className="text-lg md:text-xl text-slate-400 mt-6 leading-relaxed">
-              Live khutbah translations, prayer times, and announcements — on the screen your congregation already watches.
-            </p>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8">
-              <a href="#demo" className="bg-emerald-500 text-gray-950 px-6 py-3 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center">
-                Book WhatsApp Demo
-              </a>
-              <a
-                href={`https://wa.me/?text=${whatsappShareMessage}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-gray-700 text-white px-6 py-3 rounded-lg font-medium hover:border-emerald-500 hover:text-emerald-400 transition text-lg w-full sm:w-auto justify-center"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-                Share with your committee
-              </a>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-8 text-sm text-slate-500">
-              <span className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                Unlimited minutes
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                Screen-first display
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                £29/mo
-              </span>
-            </div>
-          </div>
-
-          {/* Mosque Screen Mock */}
-          <div className="relative">
-            <div className="bg-[#111827] rounded-2xl overflow-hidden shadow-2xl shadow-emerald-500/10 border border-white/10">
-              {/* Screen bezel */}
-              <div className="bg-[#1a2332] px-4 py-2 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
-                  <span className="text-emerald-400 text-xs font-medium uppercase tracking-wider">LIVE</span>
-                </div>
-                <span className="text-slate-400 text-xs">Birmingham Central Masjid</span>
-                <div className="text-slate-400 text-xs">Jumu'ah — 1:15 PM</div>
-              </div>
-              {/* Screen content */}
-              <div className="p-8 md:p-12 bg-gradient-to-b from-[#0f172a] via-[#1a1f2e] to-[#0f172a] min-h-[320px] flex flex-col items-center justify-center relative">
-                {/* Subtle pattern overlay */}
-                <div className="absolute inset-0 opacity-5" style={{backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '24px 24px'}}></div>
-                <div className="relative">
-                  <p className="text-slate-500 text-sm mb-6 uppercase tracking-widest">Friday Khutbah — Live Translation</p>
-                  <p className="text-white text-2xl md:text-3xl font-bold leading-relaxed text-center" dir="ltr">
-                    The Prophet ﷺ said: "The best of you are those who learn the Quran and teach it."
-                  </p>
-                  <div className="w-16 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent my-6"></div>
-                  <p className="text-emerald-300 text-xl md:text-2xl leading-relaxed text-center" dir="rtl">
-                    قال النبي ﷺ: "خيركم من تعلم القرآن وعلمه"
-                  </p>
-                  <div className="w-16 h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent my-6"></div>
-                  <p className="text-amber-300 text-lg md:text-xl leading-relaxed text-center" dir="rtl">
-                    نبی کریم ﷺ نے فرمایا: "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے"
-                  </p>
-                </div>
-              </div>
-              {/* Bottom bar */}
-              <div className="bg-[#1a2332] px-4 py-2 flex items-center justify-between text-xs text-slate-500">
-                <span>English · Arabic · Urdu</span>
-                <span className="text-emerald-400/60">khutba.io</span>
-              </div>
-            </div>
-            {/* Glow effect */}
-            <div className="absolute -inset-4 bg-gradient-to-tr from-emerald-500/10 via-transparent to-amber-500/5 rounded-3xl blur-2xl -z-10"></div>
+      <header className="relative min-h-[820px] pt-16 lg:min-h-[900px]">
+        <img src="/khutba-courtyard-hero.png" alt="Painterly blue-hour Islamic courtyard with tiled arches and warm lantern light" className="absolute inset-0 h-full w-full object-cover object-[66%_center]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#08131F_0%,rgba(8,19,31,.96)_30%,rgba(8,19,31,.5)_60%,rgba(8,19,31,.2)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#08131F] via-transparent to-[#08131F]/20" />
+        <div className="relative mx-auto flex min-h-[760px] max-w-7xl items-center px-5 py-20 md:px-8 lg:min-h-[840px]">
+          <div className="max-w-3xl">
+            <p className="mb-7 flex items-center gap-3 text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]"><span className="h-px w-10 bg-[#D6A64A]" /> The live language layer for the masjid</p>
+            <h1 className="font-editorial text-5xl leading-[1.08] tracking-[-.04em] sm:text-6xl lg:text-[5.4rem]">Let every heart understand the khutbah.</h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#E7D6B5]/80 md:text-xl">Live translation on the screen your congregation already watches—built around the Friday workflow, Islamic language, and the volunteers who keep a masjid running.</p>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row"><Link to="/demo" className="rounded-full bg-[#D6A64A] px-7 py-3.5 text-center font-bold text-[#08131F] hover:bg-[#F0C978]">Experience the display</Link><a href="#pilot" className="rounded-full border border-[#88CED0]/35 bg-[#08131F]/45 px-7 py-3.5 text-center font-semibold">Book a 4-Friday pilot</a></div>
+            <div className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-[#E7D6B5]/62"><span>Existing screen</span><span>Browser setup</span><span>No worshipper app</span><span>Archive off by default</span></div>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* Demo Request */}
-      <section id="demo" className="max-w-6xl mx-auto px-6 py-20">
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
-          <div className="pt-2">
-            <p className="text-emerald-400 text-sm font-semibold">Sell before building more</p>
-            <h2 className="text-3xl md:text-4xl font-bold mt-3">Get a committee call, then show the screen live.</h2>
-            <p className="text-slate-400 text-lg mt-4 leading-relaxed">
-              The fastest path to revenue is not another feature. It is a WhatsApp demo with one masjid committee, one laptop, and one screen.
-            </p>
-            <div className="grid sm:grid-cols-3 gap-3 mt-8">
-              {['15-minute demo', 'No card needed', '£29/mo launch price'].map(item => (
-                <div key={item} className="border border-white/5 bg-[#0d1320]/50 rounded-xl px-4 py-3 text-sm text-slate-300">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-          <DemoRequestForm />
-        </div>
-      </section>
+      <main>
+        <section className="border-y border-[#88CED0]/10 bg-[#0B1B2A]"><div className="mx-auto grid max-w-7xl divide-y divide-[#88CED0]/10 px-5 md:grid-cols-4 md:divide-x md:divide-y-0 md:px-8">{[['01', 'Imam speaks'], ['02', 'Khutba understands'], ['03', 'Screen translates'], ['04', 'Congregation follows']].map(([n, label]) => <div key={n} className="flex items-center gap-4 px-4 py-6 md:justify-center"><span className="font-editorial text-xl text-[#D6A64A]">{n}</span><span className="text-sm font-semibold">{label}</span></div>)}</div></section>
 
-      {/* Trust Signals Bar */}
-      <section className="border-y border-white/5 bg-[#0d1320]/50">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <p className="text-emerald-400 font-bold text-lg">Built for UK</p>
-              <p className="text-slate-500 text-sm mt-1">Birmingham · London · Manchester</p>
-            </div>
-            <div className="text-center">
-              <p className="text-emerald-400 font-bold text-lg">5 Languages</p>
-              <p className="text-slate-500 text-sm mt-1">English · Arabic · Urdu · Bengali · Turkish</p>
-            </div>
-            <div className="text-center">
-              <p className="text-emerald-400 font-bold text-lg">GDPR Compliant</p>
-              <p className="text-slate-500 text-sm mt-1">UK data residency</p>
-            </div>
-            <div className="text-center">
-              <p className="text-emerald-400 font-bold text-lg">No App Needed</p>
-              <p className="text-slate-500 text-sm mt-1">Works on any browser</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        <section id="product" className="mx-auto grid max-w-7xl gap-14 px-5 py-24 md:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-center lg:py-32">
+          <div><p className="text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">The product wedge</p><h2 className="font-editorial mt-5 text-4xl leading-tight md:text-5xl">One shared screen. One clear weekly job.</h2><p className="mt-6 text-lg leading-8 text-[#E7D6B5]/66">Friday translation is the reason to install Khutba. A quiet daily prayer-and-announcement screen is what makes it too useful to remove.</p><div className="mt-9 space-y-7">{proofPoints.map(([title, body]) => <div key={title} className="border-l border-[#D6A64A]/45 pl-5"><h3 className="font-semibold">{title}</h3><p className="mt-1 text-sm leading-6 text-[#E7D6B5]/58">{body}</p></div>)}</div></div><ScreenPreview />
+        </section>
 
-      {/* Features */}
-      <section id="features" className="max-w-6xl mx-auto px-6 py-20">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for masjids. <span className="text-emerald-400">Not phones.</span></h2>
-        <p className="text-slate-400 text-lg mb-12 max-w-2xl">
-          Every other translation tool makes people look at their phones. We put it on the screen where everyone can see.
-        </p>
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              ),
-              title: 'Screen-First Display',
-              desc: 'Large text, auto-scroll, RTL support. Works on any screen your masjid already has. No hardware to buy.',
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              ),
-              title: 'Unlimited Minutes',
-              desc: 'Every Friday. Every Ramadan. Every taraweeh night. No caps, no surprises, no running out mid-khutbah.',
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-                </svg>
-              ),
-              title: 'UK Languages, Done Right',
-              desc: 'Urdu, Bengali, Somali, Arabic, English. The languages UK masjids actually need — not 135 languages nobody uses.',
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              ),
-              title: '10-Minute Setup',
-              desc: 'Create account → connect mic → pick languages → go live. No IT person needed. Works on existing laptop + screen.',
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              ),
-              title: 'Masjid Branding',
-              desc: 'Your masjid name, your colours, your logo on the display. Not ours. It\'s your screen.',
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              ),
-              title: 'Ramadan Ready',
-              desc: 'Taraweeh mode for longer sessions. Ramadan theming. Built for the busiest time of the masjid year.',
-            },
-          ].map(({ icon, title, desc }) => (
-            <div key={title} className="border border-white/5 bg-[#0d1320]/50 rounded-xl p-6 hover:border-emerald-500/20 hover:bg-[#0d1320] transition">
-              <div className="w-12 h-12 bg-emerald-400/10 rounded-lg flex items-center justify-center mb-4 text-emerald-400">
-                {icon}
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <section id="reliability" className="relative border-y border-[#88CED0]/10 bg-[#0A1826] py-24"><div className="tile-pattern absolute inset-0 opacity-50" /><div className="relative mx-auto grid max-w-7xl gap-12 px-5 md:px-8 lg:grid-cols-2 lg:items-end"><div><p className="text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">Friday readiness</p><h2 className="font-editorial mt-5 text-4xl leading-tight md:text-5xl">Trust is won before the imam begins.</h2><p className="mt-6 text-lg leading-8 text-[#E7D6B5]/65">A fixed weekly moment cannot tolerate mystery. Khutba makes microphone, connection, display, and language health visible before Jumu’ah.</p></div><div className="brand-panel rounded-2xl p-6 md:p-8"><div className="flex items-center justify-between border-b border-[#88CED0]/12 pb-5"><div><p className="text-xs uppercase tracking-[.24em] text-[#88CED0]/65">Central Masjid</p><p className="mt-1 text-xl font-semibold">Ready for Jumu’ah</p></div><span className="rounded-full bg-[#1F9EAD]/15 px-3 py-1 text-xs font-bold text-[#88CED0]">READY</span></div><div className="mt-5 grid gap-3 sm:grid-cols-2">{['Microphone detected', 'Display connected', 'Internet stable', 'Languages selected', 'Caption test passed', 'Standby cached'].map(item => <div key={item} className="flex gap-3 rounded-lg bg-[#08131F]/55 px-4 py-3 text-sm text-[#E7D6B5]/78"><span className="text-[#F0C978]">✓</span>{item}</div>)}</div></div></div></section>
 
-      {/* Comparison */}
-      <section id="comparison" className="bg-[#0d1320]/50 py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Don't take our word for it.</h2>
-          <p className="text-slate-400 text-lg mb-12">See how khutba.io compares to the only other live khutbah translation tool.</p>
+        <section className="mx-auto grid max-w-7xl gap-12 px-5 py-24 md:px-8 lg:grid-cols-[.8fr_1.2fr] lg:py-32"><div><p className="text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">Accuracy first</p><h2 className="font-editorial mt-5 text-4xl leading-tight md:text-5xl">Religious language is not generic content.</h2><p className="mt-6 text-lg leading-8 text-[#E7D6B5]/65">Khutba’s intelligence roadmap protects meaning with mosque-approved terms, verified source replacement, confidence handling, and evaluation against real sermons.</p></div><div className="grid gap-4 sm:grid-cols-2">{[['Mosque glossary', 'Preferred vocabulary stays consistent.'], ['Verified Qur’an', 'Matched verses use an approved published translation.'], ['Speaker context', 'Consent-based profiles improve recurring names and accents.'], ['Visible confidence', 'Low-confidence religious text falls back safely.']].map(([title, body]) => <article key={title} className="brand-panel rounded-xl p-6"><p className="text-xs font-bold uppercase tracking-[.2em] text-[#D6A64A]">Planned intelligence</p><h3 className="mt-4 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-6 text-[#E7D6B5]/58">{body}</p></article>)}</div></section>
 
-          {/* Visual comparison cards */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {/* khutba.io card */}
-            <div className="bg-[#111827] border-2 border-emerald-500/50 rounded-2xl p-8 relative shadow-lg shadow-emerald-500/5">
-              <div className="absolute -top-3 left-6 bg-emerald-500 text-gray-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                khutba.io
-              </div>
-              <div className="mt-2 space-y-4">
-                {[
-                  { label: 'Display', value: 'Screen-first', highlight: true },
-                  { label: 'Minutes', value: 'Unlimited', highlight: true },
-                  { label: 'Price', value: '£29/mo (GBP)', highlight: true },
-                  { label: 'Setup', value: '10 minutes' },
-                  { label: 'RTL', value: 'Built-in from day one' },
-                  { label: 'UK prayer times', value: 'Included' },
-                  { label: 'Ramadan mode', value: 'Built in' },
-                  { label: 'WhatsApp sharing', value: 'Built in' },
-                  { label: 'Origin', value: 'Birmingham, UK' },
-                ].map(({ label, value, highlight }) => (
-                  <div key={label} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
-                    <span className="text-slate-400 text-sm">{label}</span>
-                    <span className={`text-sm font-medium ${highlight ? 'text-emerald-400' : 'text-white'}`}>{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+        <section className="border-y border-[#88CED0]/10 bg-[#F4EDDF] py-24 text-[#162027]"><div className="mx-auto max-w-7xl px-5 md:px-8"><div className="flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs font-bold uppercase tracking-[.28em] text-[#175EA8]">Simple commercial model</p><h2 className="font-editorial mt-5 max-w-2xl text-4xl leading-tight md:text-5xl">Buy reliability, not a bucket of AI minutes.</h2></div><Link to="/pricing" className="font-bold text-[#123E73] underline decoration-[#D6A64A] underline-offset-8">See annual pricing</Link></div><div className="mt-12 grid gap-5 md:grid-cols-3">{[['4 Fridays', 'Pilot'], ['£79 / month', 'Core'], ['£790 / year', 'Annual']].map(([price, title]) => <article key={title} className="border-t-2 border-[#123E73] pt-6"><p className="font-editorial text-3xl text-[#123E73]">{price}</p><h3 className="mt-3 font-bold">{title}</h3></article>)}</div></div></section>
 
-            {/* MinbarLive card */}
-            <div className="bg-[#111827] border border-white/5 rounded-2xl p-8 relative opacity-75">
-              <div className="absolute -top-3 left-6 bg-[#1e293b] text-slate-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                MinbarLive
-              </div>
-              <div className="mt-2 space-y-4">
-                {[
-                  { label: 'Display', value: 'Phone-only (QR)' },
-                  { label: 'Minutes', value: '100 min capped' },
-                  { label: 'Price', value: '€59/mo (EUR)' },
-                  { label: 'Setup', value: '15-20 minutes' },
-                  { label: 'RTL', value: 'Not confirmed' },
-                  { label: 'UK prayer times', value: 'Not available' },
-                  { label: 'Ramadan mode', value: 'Not available' },
-                  { label: 'WhatsApp sharing', value: 'Not available' },
-                  { label: 'Origin', value: 'Bosnia' },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
-                    <span className="text-slate-400 text-sm">{label}</span>
-                    <span className="text-slate-500 text-sm">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <section className="mx-auto max-w-5xl px-5 py-24 md:px-8 lg:py-32"><p className="text-center text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">Questions mosque committees ask</p><h2 className="font-editorial mt-5 text-center text-4xl md:text-5xl">Clear answers, before the pilot.</h2><div className="mt-12 divide-y divide-[#88CED0]/14 border-y border-[#88CED0]/14">{faq.map(([question, answer]) => <details key={question} className="group py-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-semibold"><span>{question}</span><span className="text-[#D6A64A]">+</span></summary><p className="max-w-3xl pt-4 leading-7 text-[#E7D6B5]/62">{answer}</p></details>)}</div></section>
 
-          {/* Key differentiators */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6 text-center">
-              <p className="text-3xl font-bold text-emerald-400">£30</p>
-              <p className="text-slate-400 text-sm mt-2">Cheaper per month than MinbarLive entry</p>
-            </div>
-            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6 text-center">
-              <p className="text-3xl font-bold text-emerald-400">∞</p>
-              <p className="text-slate-400 text-sm mt-2">Unlimited minutes vs 100 min cap</p>
-            </div>
-            <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-xl p-6 text-center">
-              <p className="text-3xl font-bold text-emerald-400">1</p>
-              <p className="text-slate-400 text-sm mt-2">Feature done perfectly vs 7 features done okay</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        <section id="pilot" className="border-t border-[#88CED0]/10 bg-[#0B1B2A] py-24"><div className="mx-auto grid max-w-6xl gap-12 px-5 md:px-8 lg:grid-cols-[.85fr_1.15fr]"><div><p className="text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">Founding mosque pilot</p><h2 className="font-editorial mt-5 text-4xl leading-tight md:text-5xl">Four Fridays to earn your committee’s trust.</h2><p className="mt-6 text-lg leading-8 text-[#E7D6B5]/65">We set up the display, test your audio, agree terminology, and review each Friday. Your result is the proof.</p></div><DemoRequestForm /></div></section>
+      </main>
 
-      {/* WhatsApp Share Section */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
-        <div className="bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl p-8 md:p-12 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6">
-            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-          </div>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Share with your mosque committee</h2>
-          <p className="text-emerald-100 mb-8 max-w-xl mx-auto">
-            One tap. Pre-written message. Send it to your masjid's WhatsApp group and let them decide.
-          </p>
-          <a
-            href={`https://wa.me/?text=${whatsappShareMessage}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-white text-emerald-700 px-8 py-4 rounded-lg font-bold text-lg hover:bg-emerald-50 transition shadow-lg"
-          >
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Send WhatsApp Message
-          </a>
-          <p className="text-emerald-200/60 text-xs mt-4">
-            "Salaam! Check out khutba.io — AI-powered mosque screens. Unlimited minutes, £29/month. Better than MinbarLive."
-          </p>
-        </div>
-      </section>
-
-      {/* Testimonial placeholder */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="border border-gray-800 rounded-2xl p-8 md:p-12 text-center">
-          <p className="text-gray-300 text-lg mb-4 italic">"We used to rely on a volunteer to translate. Now everyone follows along on the screen — in their own language."</p>
-          <p className="text-emerald-400 font-medium">— Coming soon from our first Birmingham masjid</p>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-gray-900/50 py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Get your masjid Ramadan-ready.</h2>
-          <p className="text-slate-400 text-lg mb-8">
-            Less than a box of flyers per month. Unlimited minutes. Works on the screen you already have.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="#demo" className="bg-emerald-500 text-gray-950 px-8 py-4 rounded-lg font-semibold hover:bg-emerald-400 transition text-lg w-full sm:w-auto text-center shadow-lg shadow-emerald-500/20">
-              Book WhatsApp Demo
-            </a>
-            <a
-              href={`https://wa.me/?text=${whatsappShareMessage}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border border-gray-700 text-white px-6 py-4 rounded-lg font-medium hover:border-emerald-500 hover:text-emerald-400 transition text-lg w-full sm:w-auto justify-center"
-            >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Share on WhatsApp
-            </a>
-          </div>
-          <p className="text-slate-500 text-sm mt-6">Built in Birmingham. Priced for UK masjids.</p>
-          <div className="mt-8">
-            <a href="https://jobfilter.uk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 text-sm font-medium transition">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-              See WhatsApp alert example →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-gray-800 py-8">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <span className="text-gray-500 text-sm">© 2026 khutba.io — Built in Birmingham, UK</span>
-          <div className="flex items-center gap-6">
-            <a href="#features" className="text-gray-500 hover:text-emerald-400 text-sm transition">Features</a>
-            <a href="#comparison" className="text-gray-500 hover:text-emerald-400 text-sm transition">Compare</a>
-            <Link to="/pricing" className="text-gray-500 hover:text-emerald-400 text-sm transition">Pricing</Link>
-            <a
-              href={`https://wa.me/?text=${whatsappShareMessage}`}
-              className="text-gray-500 hover:text-emerald-400 text-sm transition flex items-center gap-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Share
-            </a>
-          </div>
-        </div>
-      </footer>
+      <footer className="border-t border-[#88CED0]/10 py-8"><div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 text-sm text-[#E7D6B5]/45 md:flex-row md:items-center md:justify-between md:px-8"><Wordmark /><p>Built in Birmingham for multilingual masjid communities.</p><div className="flex gap-5"><Link to="/demo">Demo</Link><Link to="/pricing">Pricing</Link></div></div></footer>
     </div>
   );
 }

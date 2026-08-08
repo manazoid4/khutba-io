@@ -4,6 +4,7 @@ import PricingPage from './pages/PricingPage';
 import DisplayPage from './pages/DisplayPage';
 import AdminPage from './pages/AdminPage';
 import SettingsPage from './pages/SettingsPage';
+import DemoPage from './pages/DemoPage';
 
 export default function App() {
   return (
@@ -11,6 +12,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/demo" element={<DemoPage />} />
         <Route path="/display/:sessionId" element={<DisplayPage />} />
         <Route path="/admin/:sessionId" element={<AdminPage />} />
         <Route path="/settings" element={<SettingsPage />} />

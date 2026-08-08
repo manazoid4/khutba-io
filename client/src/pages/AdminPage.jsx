@@ -172,6 +172,11 @@ export default function AdminPage() {
   const [volume, setVolume] = useState(80);
   const [activeTab, setActiveTab] = useState('controls');
   const [previewTexts, setPreviewTexts] = useState({});
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [operatorMessage, setOperatorMessage] = useState('');
+
+  const speechSupported = typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+  const fridayReady = socketConnected && speechSupported && selectedLanguages.length > 0;
 
   const recognitionRef = useRef(null);
   const socketRef = useRef(null);
@@ -180,14 +185,22 @@ export default function AdminPage() {
   useEffect(() => {
     socketRef.current = io(import.meta.env.VITE_SERVER_URL || 'http://localhost:3001');
 
-    socketRef.current.emit('admin:join', { sessionId });
+    socketRef.current.on('connect', () => {
+      setSocketConnected(true);
+      setOperatorMessage('');
+      socketRef.current.emit('admin:join', { sessionId });
+    });
+    socketRef.current.on('disconnect', () => setSocketConnected(false));
 
     socketRef.current.on('admin:joined', ({ session }) => {
       setSession(session);
       setSelectedLanguages(session.languages || ['en', 'ur', 'ar']);
     });
 
-    socketRef.current.on('error', (err) => console.error(err));
+    socketRef.current.on('error', (err) => {
+      console.error(err);
+      setOperatorMessage(err?.message || 'The control room could not connect.');
+    });
 
     return () => {
       if (socketRef.current) socketRef.current.disconnect();
@@ -203,7 +216,7 @@ export default function AdminPage() {
 
   const startMic = useCallback(() => {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert('Speech recognition not supported. Use Chrome or Edge.');
+      setOperatorMessage('This browser cannot capture live speech. Open the control room in Chrome or Edge.');
       return;
     }
 
@@ -252,6 +265,7 @@ export default function AdminPage() {
 
     recognition.start();
     recognitionRef.current = recognition;
+    socketRef.current?.emit('admin:start', { sessionId });
     setMicActive(true);
     setIsLive(true);
     setIsPaused(false);
@@ -317,11 +331,11 @@ export default function AdminPage() {
   const displayUrl = `${window.location.origin}/display/${sessionId}`;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-[#08131F] text-[#F4EDDF]">
       {showTestPattern && <TestPattern onClose={() => setShowTestPattern(false)} />}
 
       {/* Header */}
-      <header className="bg-gray-900/80 border-b border-gray-800 px-4 md:px-6 py-3">
+      <header className="glass-panel border-b border-[#88CED0]/10 px-4 md:px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div>
@@ -373,6 +387,22 @@ export default function AdminPage() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <section className={`mb-6 rounded-xl border p-4 ${fridayReady ? 'border-[#1F9EAD]/35 bg-[#1F9EAD]/10' : 'border-amber-500/30 bg-amber-500/5'}`} aria-label="Friday readiness">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <div className="flex items-center gap-3"><span className={`size-2.5 rounded-full ${fridayReady ? 'bg-[#88CED0]' : 'bg-amber-400'}`} /><h2 className="font-semibold">{fridayReady ? 'Ready for Jumu’ah' : 'Complete readiness before going live'}</h2></div>
+              <p className="mt-1 pl-5 text-xs text-[#E7D6B5]/45">Microphone, browser, connection, display and languages</p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <span className={`rounded-full px-3 py-1.5 ${speechSupported ? 'bg-[#1F9EAD]/15 text-[#88CED0]' : 'bg-amber-500/10 text-amber-300'}`}>Microphone {speechSupported ? 'supported' : 'unsupported'}</span>
+              <span className={`rounded-full px-3 py-1.5 ${socketConnected ? 'bg-[#1F9EAD]/15 text-[#88CED0]' : 'bg-amber-500/10 text-amber-300'}`}>Connection {socketConnected ? 'online' : 'offline'}</span>
+              <span className="rounded-full bg-[#123E73]/35 px-3 py-1.5 text-[#88CED0]">Display link ready</span>
+              <span className={`rounded-full px-3 py-1.5 ${selectedLanguages.length ? 'bg-[#123E73]/35 text-[#88CED0]' : 'bg-amber-500/10 text-amber-300'}`}>{selectedLanguages.length} languages</span>
+            </div>
+          </div>
+          {operatorMessage && <p className="mt-3 rounded-lg bg-amber-500/10 px-4 py-3 text-sm text-amber-200" role="status">{operatorMessage}</p>}
+        </section>
+
         {/* Mobile tab bar */}
         <div className="lg:hidden flex gap-2 mb-6 overflow-x-auto scrollbar-hide">
           {['controls', 'transcript', 'preview'].map(tab => (
@@ -406,7 +436,8 @@ export default function AdminPage() {
                 {!isLive ? (
                   <button
                     onClick={startMic}
-                    className="w-full py-3.5 rounded-lg font-semibold bg-emerald-600 text-white hover:bg-emerald-500 transition flex items-center justify-center gap-2"
+                    disabled={!fridayReady}
+                    className="w-full py-3.5 rounded-lg font-semibold bg-[#D6A64A] text-[#08131F] hover:bg-[#F0C978] disabled:cursor-not-allowed disabled:opacity-35 transition flex items-center justify-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />

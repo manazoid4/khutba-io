@@ -1,7 +1,7 @@
 {
   "name": "khutba-io",
   "version": "0.2.0",
-  "description": "Live auto-translation and auto-scrolling display for masjids — screen-first, unlimited, UK-built",
+  "description": "The live language layer for the masjid — screen-first khutbah translation built around the Friday workflow",
   "private": true,
   "scripts": {
     "dev": "vite",

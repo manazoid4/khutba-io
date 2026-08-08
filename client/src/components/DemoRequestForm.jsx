@@ -37,12 +37,17 @@ export default function DemoRequestForm({ variant = 'dark' }) {
     setError('');
 
     try {
-      const response = await fetch('/api/demo-requests', {
+      const apiBase = import.meta.env.VITE_SERVER_URL || (import.meta.env.DEV ? 'http://localhost:3001' : '');
+      const response = await fetch(`${apiBase}/api/demo-requests`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
 
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error('Pilot requests are not connected on this preview yet. You can still try the interactive demo.');
+      }
       const payload = await response.json();
       if (!response.ok) {
         throw new Error(payload.error || 'Could not save request');
@@ -57,19 +62,19 @@ export default function DemoRequestForm({ variant = 'dark' }) {
   };
 
   const inputClass = isDark
-    ? 'bg-gray-950/80 border-gray-700 text-white placeholder-gray-600 focus:border-emerald-400 focus:ring-emerald-400/30'
-    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-emerald-600 focus:ring-emerald-600/20';
+    ? 'bg-[#08131F]/80 border-[#88CED0]/18 text-[#F4EDDF] placeholder-[#E7D6B5]/25 focus:border-[#D6A64A] focus:ring-[#D6A64A]/20'
+    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-[#175EA8] focus:ring-[#175EA8]/20';
 
-  const labelClass = isDark ? 'text-gray-300' : 'text-gray-700';
-  const helpClass = isDark ? 'text-gray-500' : 'text-gray-500';
+  const labelClass = isDark ? 'text-[#E7D6B5]/75' : 'text-gray-700';
+  const helpClass = isDark ? 'text-[#E7D6B5]/42' : 'text-gray-500';
 
   return (
-    <form onSubmit={submit} className={`rounded-2xl border p-6 md:p-8 ${isDark ? 'bg-gray-900 border-gray-800' : 'bg-emerald-50 border-emerald-100'}`}>
+    <form onSubmit={submit} className={`rounded-2xl border p-6 md:p-8 ${isDark ? 'brand-panel border-[#88CED0]/16' : 'bg-blue-50 border-blue-100'}`}>
       <div className="mb-6">
-        <p className={`text-sm font-semibold ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>Launch offer</p>
-        <h2 className={`text-2xl font-bold mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>Book a 15-minute masjid screen demo</h2>
+        <p className={`text-sm font-semibold ${isDark ? 'text-[#88CED0]' : 'text-[#123E73]'}`}>Four-Friday pilot</p>
+        <h2 className={`text-2xl font-bold mt-1 ${isDark ? 'text-[#F4EDDF]' : 'text-gray-900'}`}>Book a 15-minute masjid screen demo</h2>
         <p className={`text-sm mt-2 ${helpClass}`}>
-          First 10 UK masjids get setup help and the £29/month starter price locked for 12 months.
+          Test your own imam, audio feed, languages and screens before asking the committee to subscribe.
         </p>
       </div>
 
@@ -132,10 +137,10 @@ export default function DemoRequestForm({ variant = 'dark' }) {
                 onClick={() => toggleLanguage(language)}
                 className={`px-3 py-2 rounded-lg text-sm font-medium border transition ${
                   active
-                    ? 'bg-emerald-500 border-emerald-500 text-gray-950'
+                    ? 'bg-[#D6A64A] border-[#D6A64A] text-[#08131F]'
                     : isDark
-                      ? 'border-gray-700 text-gray-300 hover:border-emerald-500'
-                      : 'border-gray-300 text-gray-700 hover:border-emerald-600'
+                      ? 'border-[#88CED0]/18 text-[#E7D6B5]/70 hover:border-[#88CED0]'
+                      : 'border-gray-300 text-gray-700 hover:border-[#175EA8]'
                 }`}
               >
                 {language}
@@ -159,14 +164,14 @@ export default function DemoRequestForm({ variant = 'dark' }) {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="w-full mt-6 bg-emerald-500 text-gray-950 py-3 rounded-lg font-bold hover:bg-emerald-400 transition disabled:opacity-60 disabled:cursor-wait"
+        className="w-full mt-6 bg-[#D6A64A] text-[#08131F] py-3 rounded-lg font-bold hover:bg-[#F0C978] transition disabled:opacity-60 disabled:cursor-wait"
       >
         {status === 'submitting' ? 'Saving request...' : 'Request WhatsApp demo'}
       </button>
 
       {status === 'success' && (
-        <p className={`mt-4 text-sm font-medium ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>
-          Request saved. Follow up by WhatsApp and offer a live screen test.
+        <p className={`mt-4 text-sm font-medium ${isDark ? 'text-[#88CED0]' : 'text-[#123E73]'}`}>
+          Request saved. We will follow up to arrange the live screen test.
         </p>
       )}
       {status === 'error' && (
