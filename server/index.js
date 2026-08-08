@@ -137,7 +137,7 @@ app.get('/api/share/whatsapp', (req, res) => {
   const message = encodeURIComponent(
     `Assalamu Alaikum! ${masjidName || 'Our masjid'} is now using khutba.io for live khutbah translations on screen.\n\n` +
     `Watch live: ${displayUrl}\n\n` +
-    `Unlimited minutes. Screen-first. Built for UK masjids.\n` +
+    `Screen-first. Built around the Friday workflow.\n` +
     `Learn more: https://khutba.io`
   );
   res.json({ whatsappUrl: `https://wa.me/?text=${message}` });
@@ -169,7 +169,7 @@ app.post('/api/demo-requests', async (req, res) => {
     city,
     languages,
     notes,
-    launchOffer: 'First 10 UK masjids: £29/month locked for 12 months',
+    launchOffer: 'Four-Friday pilot before Core subscription',
     createdAt: new Date().toISOString(),
   };
 
@@ -203,14 +203,27 @@ io.on('connection', (socket) => {
     if (!session) return socket.emit('error', { message: 'Session not found' });
     
     admins.set(sessionId, socket.id);
-    session.active = true;
-    session.startedAt = new Date().toISOString();
-    
     socket.join(`admin:${sessionId}`);
     socket.emit('admin:joined', { session });
-    
-    // Notify all displays
+  });
+
+  // Going live is explicit. Opening the control room must never start a broadcast.
+  socket.on('admin:start', ({ sessionId }) => {
+    const session = sessions.get(sessionId);
+    if (!session || admins.get(sessionId) !== socket.id) return;
+    session.active = true;
+    session.startedAt = new Date().toISOString();
     io.to(`display:${sessionId}`).emit('session:started', { session });
+  });
+
+  socket.on('admin:languages', ({ sessionId, languages }) => {
+    const session = sessions.get(sessionId);
+    if (!session || admins.get(sessionId) !== socket.id || !Array.isArray(languages)) return;
+    const allowed = new Set(SUPPORTED_LANGUAGES.map(language => language.code));
+    session.languages = [...new Set(languages.filter(language => allowed.has(language)))];
+    io.to(`display:${sessionId}`).emit('display:languages', {
+      languages: SUPPORTED_LANGUAGES.filter(language => session.languages.includes(language.code)),
+    });
   });
 
   // Admin sends transcribed text (from Deepgram)
@@ -270,7 +283,10 @@ io.on('connection', (socket) => {
     for (const [sessionId, adminId] of admins.entries()) {
       if (adminId === socket.id) {
         const session = sessions.get(sessionId);
-        if (session) session.active = false;
+        if (session) {
+          session.active = false;
+          io.to(`display:${sessionId}`).emit('session:ended');
+        }
         admins.delete(sessionId);
       }
     }

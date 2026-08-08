@@ -1,248 +1,28 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import DemoRequestForm from '../components/DemoRequestForm';
 
+const plans = [
+  { name: 'Core', monthly: 79, annual: 790, fit: 'Independent mosque', description: 'The complete Friday workflow for one site.', features: ['1 live room and all connected screens', '3 simultaneous display languages', 'Friday readiness and display test', 'Prayer and standby display modes', 'Mosque terminology setup', 'Email and WhatsApp support'], recommended: true },
+  { name: 'Pro', monthly: 149, annual: 1490, fit: 'Central mosque or Islamic centre', description: 'More services, languages and operational support.', features: ['Everything in Core', '6 simultaneous display languages', 'Livestream caption overlay', 'Announcement and event screen modes', 'Khutbah transcript workspace when released', 'Priority Friday support'] },
+  { name: 'Network', monthly: 399, annual: 3990, fit: 'Multi-site organisation', description: 'Central control and consistent language across sites.', features: ['3 sites included', 'Central settings and glossary', 'Cross-site readiness view', 'Role-based operations', 'Quarterly translation-quality review', 'Rollout and support plan'] },
+];
+
 export default function PricingPage() {
+  const [annual, setAnnual] = useState(true);
   return (
-    <div className="min-h-screen bg-white">
-      {/* Nav */}
-      <nav className="border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-emerald-700">khutba.io</Link>
-          <Link to="/" className="text-gray-600 hover:text-gray-900 text-sm">← Back to home</Link>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-[#08131F] text-[#F4EDDF]">
+      <nav className="border-b border-[#88CED0]/10"><div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-8"><Link to="/" className="font-editorial text-xl font-bold">khutba<span className="text-[#88CED0]">.io</span></Link><Link to="/demo" className="rounded-full border border-[#D6A64A]/45 px-4 py-2 text-sm font-semibold text-[#F0C978]">Try demo</Link></div></nav>
 
-      {/* Header */}
-      <section className="max-w-6xl mx-auto px-6 py-16 text-center">
-        <h1 className="text-4xl font-bold text-gray-900">Priced for masjid budgets.</h1>
-        <p className="text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-          Not SaaS enterprise pricing. Real prices for real communities.
-        </p>
-        <div className="mt-6 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
-          <span className="text-amber-700 text-sm font-medium">🌙 Ramadan 2027: Get 2 months free with annual billing</span>
-        </div>
-      </section>
+      <header className="tile-pattern border-b border-[#88CED0]/10 py-20 text-center md:py-28"><div className="mx-auto max-w-4xl px-5"><p className="text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">Annual contracts built for dependable Fridays</p><h1 className="font-editorial mt-6 text-5xl leading-tight md:text-6xl">Price the outcome, not every minute spoken.</h1><p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#E7D6B5]/65">Start with a four-Friday pilot. Subscribe when the workflow works in your building, with your imam, audio and screens.</p><div className="mx-auto mt-9 inline-flex rounded-full border border-[#88CED0]/18 bg-[#0B1B2A] p-1"><button onClick={() => setAnnual(false)} className={`rounded-full px-5 py-2 text-sm ${!annual ? 'bg-[#F4EDDF] font-bold text-[#08131F]' : 'text-[#E7D6B5]/55'}`}>Monthly</button><button onClick={() => setAnnual(true)} className={`rounded-full px-5 py-2 text-sm ${annual ? 'bg-[#D6A64A] font-bold text-[#08131F]' : 'text-[#E7D6B5]/55'}`}>Annual · save 2 months</button></div></div></header>
 
-      {/* Pricing Cards */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="grid md:grid-cols-3 gap-6">
-          {/* Starter */}
-          <div className="border border-gray-200 rounded-2xl p-8">
-            <h3 className="text-lg font-semibold text-gray-900">Starter</h3>
-            <p className="text-gray-500 text-sm mt-1">For small masjids getting started</p>
-            <div className="mt-6">
-              <span className="text-4xl font-bold text-gray-900">£29</span>
-              <span className="text-gray-500">/mo</span>
-            </div>
-            <p className="text-sm text-gray-400 mt-1">Less than MinbarLive's entry price</p>
-            <ul className="mt-8 space-y-3">
-              {[
-                'Unlimited minutes',
-                '3 languages (Arabic, English, Urdu)',
-                'Live screen display',
-                'Auto-scroll + RTL support',
-                'UK prayer times',
-                'WhatsApp sharing',
-                '10-minute setup',
-              ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-gray-700">
-                  <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a href="#demo" className="block text-center w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
-              Request Demo
-            </a>
-          </div>
+      <main className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+        <div className="grid gap-5 lg:grid-cols-3">{plans.map(plan => <article key={plan.name} className={`relative flex flex-col rounded-2xl border p-6 md:p-8 ${plan.recommended ? 'border-[#D6A64A]/55 bg-[#123E73]/20' : 'border-[#88CED0]/16 bg-[#0B1B2A]/55'}`}>{plan.recommended && <span className="absolute right-6 top-0 -translate-y-1/2 rounded-full bg-[#D6A64A] px-3 py-1 text-[10px] font-bold uppercase tracking-[.18em] text-[#08131F]">Best first contract</span>}<p className="text-xs font-bold uppercase tracking-[.22em] text-[#88CED0]">{plan.fit}</p><h2 className="font-editorial mt-4 text-3xl">{plan.name}</h2><p className="mt-3 min-h-12 text-sm leading-6 text-[#E7D6B5]/55">{plan.description}</p><div className="mt-7 border-y border-[#88CED0]/10 py-5"><span className="font-editorial text-4xl text-[#F0C978]">£{annual ? plan.annual : plan.monthly}</span><span className="text-sm text-[#E7D6B5]/45"> / {annual ? 'year' : 'month'}</span>{annual && <p className="mt-1 text-xs text-[#88CED0]/65">Equivalent to £{Math.round(plan.annual / 12)}/month, billed once</p>}</div><ul className="mt-6 flex-1 space-y-3 text-sm text-[#E7D6B5]/72">{plan.features.map(feature => <li key={feature} className="flex gap-3"><span className="text-[#D6A64A]">✓</span>{feature}</li>)}</ul><a href="#pilot" className={`mt-8 rounded-full px-5 py-3 text-center font-bold ${plan.recommended ? 'bg-[#D6A64A] text-[#08131F]' : 'border border-[#88CED0]/28 text-[#F4EDDF]'}`}>Start with a pilot</a></article>)}</div>
 
-          {/* Masjid — Featured */}
-          <div className="border-2 border-emerald-700 rounded-2xl p-8 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-700 text-white text-xs font-medium px-3 py-1 rounded-full">
-              Most Popular
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900">Masjid</h3>
-            <p className="text-gray-500 text-sm mt-1">For growing communities</p>
-            <div className="mt-6">
-              <span className="text-4xl font-bold text-gray-900">£59</span>
-              <span className="text-gray-500">/mo</span>
-            </div>
-            <p className="text-sm text-gray-400 mt-1">Same price as MinbarLive — but unlimited</p>
-            <ul className="mt-8 space-y-3">
-              {[
-                'Everything in Starter',
-                '6 languages (add Bengali, Somali)',
-                'Khutbah archive (searchable)',
-                'Masjid branding on display',
-                'Ramadan mode (taraweeh support)',
-                'Export khutbahs as PDF',
-                'Priority WhatsApp support',
-              ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-gray-700">
-                  <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a href="#demo" className="block text-center w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
-              Request Demo
-            </a>
-          </div>
+        <section className="mt-16 grid gap-6 border-y border-[#88CED0]/12 py-10 md:grid-cols-3"><div><p className="font-semibold">4-Friday pilot</p><p className="mt-2 text-sm leading-6 text-[#E7D6B5]/50">No payment while we prove audio, latency, readability and volunteer workflow.</p></div><div><p className="font-semibold">Usage policy</p><p className="mt-2 text-sm leading-6 text-[#E7D6B5]/50">Plans cover normal mosque services. High-volume conferences, broadcasters and Ramadan programmes receive a clear capacity quote—never a mid-khutbah cutoff.</p></div><div><p className="font-semibold">Optional Khutba Box</p><p className="mt-2 text-sm leading-6 text-[#E7D6B5]/50">Browser use remains standard. A managed HDMI device will be offered only where it materially improves reliability.</p></div></section>
 
-          {/* Centre */}
-          <div className="border border-gray-200 rounded-2xl p-8">
-            <h3 className="text-lg font-semibold text-gray-900">Centre</h3>
-            <p className="text-gray-500 text-sm mt-1">For multi-room Islamic centres</p>
-            <div className="mt-6">
-              <span className="text-4xl font-bold text-gray-900">£99</span>
-              <span className="text-gray-500">/mo</span>
-            </div>
-            <p className="text-sm text-gray-400 mt-1">3x less than MinbarLive's multi-room plan</p>
-            <ul className="mt-8 space-y-3">
-              {[
-                'Everything in Masjid',
-                'Unlimited languages',
-                'Multi-room / multi-screen',
-                'Custom branding (logo, colours)',
-                'Dedicated account manager',
-                'API access for integrations',
-                'Annual billing: 2 months free',
-              ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-gray-700">
-                  <svg className="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a href="#demo" className="block text-center w-full mt-8 bg-emerald-700 text-white py-3 rounded-lg font-medium hover:bg-emerald-800 transition">
-              Contact Us
-            </a>
-          </div>
-        </div>
-
-        <div id="demo" className="mt-20 max-w-3xl mx-auto">
-          <DemoRequestForm variant="light" />
-        </div>
-
-        {/* Comparison Table */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">khutba.io vs MinbarLive</h2>
-          <p className="text-gray-600 mb-8">The only two live khutbah translation tools. Here's the difference.</p>
-          
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="text-left p-5 text-gray-500 font-medium text-sm">Feature</th>
-                  <th className="p-5 bg-emerald-50">
-                    <div className="text-emerald-700 font-bold">khutba.io</div>
-                    <div className="text-xs text-emerald-600">Screen-first · UK · Unlimited</div>
-                  </th>
-                  <th className="p-5">
-                    <div className="text-gray-700 font-bold">MinbarLive</div>
-                    <div className="text-xs text-gray-500">Phone-first · Europe · Capped</div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['Entry price', '£29/mo', '€59/mo'],
-                  ['Minutes included', 'Unlimited', '100 min (Standard)'],
-                  ['Display', 'Screen-first (built for screens)', 'Phone-only (QR codes)'],
-                  ['Currency', 'GBP (UK pricing)', 'EUR (Europe pricing)'],
-                  ['RTL support', 'Built-in from day one', 'Not confirmed'],
-                  ['UK prayer times', 'Included', 'Not available'],
-                  ['Ramadan mode', 'Built in', 'Not available'],
-                  ['WhatsApp sharing', 'Built in', 'Not available'],
-                  ['Masjid branding', 'All tiers', 'Higher tiers only'],
-                  ['Archive', 'Included in £59+', 'All tiers'],
-                  ['Languages', '5 UK-focused, done right', '135+ (quality varies)'],
-                  ['Setup time', '10 minutes', '15-20 minutes'],
-                  ['Free trial', 'Yes — no card needed', '60 min one-time'],
-                  ['Cancel anytime', 'Yes', 'Yes'],
-                  ['Origin', 'Birmingham, UK', 'Bosnia'],
-                ].map(([feature, us, them], i) => (
-                  <tr key={feature} className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}`}>
-                    <td className="p-4 px-5 font-medium text-gray-700 text-sm">{feature}</td>
-                    <td className="p-4 px-5 text-emerald-700 font-medium text-sm bg-emerald-50/30">{us}</td>
-                    <td className="p-4 px-5 text-gray-500 text-sm">{them}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* FAQ */}
-        <div className="mt-20 max-w-3xl">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">Common questions</h2>
-          {[
-            {
-              q: "Why is it cheaper than MinbarLive?",
-              a: "We focus on one thing — live translation on screen. MinbarLive has 7 modules. We don't charge you for features you don't need. Our API cost is ~$3/mo per masjid — the rest goes to keeping the service running and improving it."
-            },
-            {
-              q: "What does 'unlimited minutes' mean?",
-              a: "Exactly that. Run khutbahs every Friday, every Ramadan, every taraweeh night. No caps. There's a fair use policy at 20 hours/month — which covers even the most active masjid."
-            },
-            {
-              q: "Do we need to buy any hardware?",
-              a: "No. If your masjid has a screen (TV, projector, monitor) and a laptop, you're ready. Open the browser, connect the mic, and you're live."
-            },
-            {
-              q: "Can we try it before paying?",
-              a: "Yes. Free trial, no card needed. Set it up, run a test khutbah, see how it looks on your screen. Then decide."
-            },
-            {
-              q: "What languages do you support?",
-              a: "Arabic, English, Urdu, Bengali, Somali. These are the languages UK masjids actually need. We focus on quality over quantity — your Urdu translation will be better than a tool that claims 135 languages."
-            },
-            {
-              q: "Is our data stored in the UK?",
-              a: "Yes. All data is stored on UK servers. We're GDPR compliant. Archive is opt-in — you control what gets stored."
-            },
-          ].map(({ q, a }) => (
-            <div key={q} className="border-b border-gray-200 py-6">
-              <h3 className="font-semibold text-gray-900">{q}</h3>
-              <p className="text-gray-600 mt-2 text-sm leading-relaxed">{a}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* WhatsApp CTA */}
-        <div className="mt-20 bg-emerald-700 rounded-2xl p-12 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Know another masjid that needs this?</h2>
-          <p className="text-emerald-100 mb-8 max-w-xl mx-auto">
-            Share khutba.io with your mosque committee's WhatsApp group. One message is all it takes.
-          </p>
-          <a
-            href={`https://wa.me/?text=${encodeURIComponent(
-              "Assalamu Alaikum! We started using khutba.io — it shows live translations of the khutbah on our screen in Urdu, Bengali, and English. Takes 10 minutes to set up. Costs less than a box of flyers per month. Want me to show you? https://khutba.io"
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-emerald-700 px-6 py-3 rounded-lg font-medium hover:bg-emerald-50 transition"
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Share on WhatsApp
-          </a>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-gray-200 py-8">
-        <div className="max-w-6xl mx-auto px-6 text-center text-gray-500 text-sm">
-          © 2026 khutba.io — Built in Birmingham, UK
-        </div>
-      </footer>
+        <section id="pilot" className="mt-24 grid gap-12 lg:grid-cols-[.8fr_1.2fr]"><div><p className="text-xs font-bold uppercase tracking-[.28em] text-[#88CED0]">Start with evidence</p><h2 className="font-editorial mt-5 text-4xl leading-tight">Four Fridays. A real committee decision.</h2><p className="mt-5 leading-7 text-[#E7D6B5]/58">Annual prepayment is earned after the product works in your mosque. The pilot review covers successful minutes, readability, volunteer effort and congregation feedback.</p></div><DemoRequestForm /></section>
+      </main>
     </div>
   );
 }
